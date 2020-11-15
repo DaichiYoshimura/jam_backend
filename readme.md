@@ -52,7 +52,7 @@ activate pipenv
 pipenv shell
 exit
 ```    
-# **プロジェクトの作成**
+# **create project**
 
 ```
 pipenv shell
@@ -68,9 +68,8 @@ cd ./{your_project_name}
 pipenv shell
 python manage.py startapp {your_app_name} 
 ```
-- {your_app_name}：dirAPI本体を構築していくディレクトリになります。
-- 共通ディレクトリがすでに存在している場合は、APPディレクトリのみ作成されます。
-- APIを新規に追加する場合はこのコマンドで他のAPIと並列構成になるように追加します。
+- {your_app_name}：app dir
+- If common dir exists, create app dir only.
 - At first, You create an app to manage super user.
 ## **create model for managing super user**  
 
@@ -138,19 +137,18 @@ pipenv run start
 
 this is finish for managing super user app.
 
-# **djangoアプリ(API)の追加手順**
+# **tutorial for django app**
 
-## **startappコマンド**  
-アプリ追加コマンドを叩きます。  
+## **startapp**  
+add app
 ```
 python manage.py startapp {your_app_name} 
 ```  
-- {your_app_name}：API本体を構築していくディレクトリになります。
-- APIを新規に追加する場合はこのコマンドで他のAPIと並列構成になるように追加します。
-- 共通ディレクトリがすでに存在しているはずなので、APPディレクトリのみ作成されます。
+- {your_app_name}：app dir
+- If common dir exists, create app dir only.
    
-## **settingの編集**  
-共通ディレクトリの設定にアプリ名を加えておきます。  
+## **setting**  
+
 `python:rest_common/settings.py`  
 ```
 INSTALLED_APPS = [
@@ -165,8 +163,8 @@ INSTALLED_APPS = [
 ]
 ```  
 
-## **modelの定義**  
-テーブル,カラムを定義を行います。  
+## **model**  
+define table and columns
 `{your_app_name}/models.py`  
 ```
 class User(models.Model):
@@ -174,10 +172,7 @@ class User(models.Model):
     mail = models.EmailField()
 ```
 
-## **serializerの定義**
-・リクエストの加工
-・リクエストのバリデーション
-・レスポンスの加工
+## **serializer**
 `{your_app_name}/serializer.py`  
 ```
 from rest_framework import serializers
@@ -188,11 +183,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('name', 'mail')
 ```
 
-## **viewsetの定義**
-・リクエストの受け取り
-・リクエストへのシリアライザ適用
-・モデルへのCRUD司令
-・レスポンスの返却  
+## **viewset**
 `{your_app_name}/views.py`  
 ```
 from rest_framework import viewsets
