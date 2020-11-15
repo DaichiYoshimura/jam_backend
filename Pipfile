@@ -1,0 +1,29 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+flake8 = "*"
+yapf = "*"
+autopep8 = "*"
+
+[packages]
+django = "*"
+djangorestframework = "*"
+django-filter = "*"
+autopep8 = "*"
+flake8 = "*"
+pipdeptree = "*"
+django-environ = "*"
+django-cors-headers = "*"
+psycopg2-binary = "*"
+drf-nested-routers = "*"
+
+[requires]
+python_version = "3.8"
+
+[scripts]
+start = "python project/manage.py runserver"
+makemigrations = "python project/manage.py makemigrations"
+migrate = "python project/manage.py migrate"

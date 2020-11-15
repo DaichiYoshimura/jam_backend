@@ -1,0 +1,5 @@
+外部キーの繋げ方はもっといい方法がある(全てのモデル)
+ネスト対応（performance/tune)
+manage.py のstartappをserializerとか一括で作れるようにする
+routerの改良
+

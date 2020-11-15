@@ -1,0 +1,33 @@
+POST http://localhost:8000/api/room/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "name":"dot-blue"
+}
+
+###
+GET http://localhost:8000/api/rooms/ HTTP/1.1
+
+###
+GET http://localhost:8000/api/rooms/85d9a08b-60cd-443b-8799-ad90b75e8317/ HTTP/1.1
+
+
+###
+PUT http://localhost:8000/api/rooms/85d9a08b-60cd-443b-8799-ad90b75e8317/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "name":"koko"
+}
+
+###
+PATCH http://localhost:8000/api/rooms/85d9a08b-60cd-443b-8799-ad90b75e8317/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "name":"dot-blue"
+}
+
+###
+DELETE http://localhost:8000/api/rooms/18e97aa5-6290-45d6-bd41-8fb52434fa38/ HTTP/1.1
+Content-Type: application/json

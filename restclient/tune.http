@@ -1,0 +1,40 @@
+POST http://localhost:8000/api/rooms/85d9a08b-60cd-443b-8799-ad90b75e8317/tune/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "name":"confirmation",
+    "player_id_set":[
+        "3a6e83a0-1c1b-40fd-858e-4184545ff99e",
+        "4b74376d-2f08-4fc9-b9f5-b5fd33babf5a"
+    ]
+}
+
+###
+GET http://localhost:8000/api/rooms/85d9a08b-60cd-443b-8799-ad90b75e8317/tune/ HTTP/1.1
+Content-Type: application/json
+
+
+###
+GET http://localhost:8000/api/rooms/85d9a08b-60cd-443b-8799-ad90b75e8317/tune/0731e8c1-7d01-4df5-9078-17734fe254f0/ HTTP/1.1
+Content-Type: application/json
+
+###
+PUT http://localhost:8000/api/rooms/85d9a08b-60cd-443b-8799-ad90b75e8317/tune/{tune_id} HTTP/1.1
+Content-Type: application/json
+
+{
+    "name":"confirmation",
+    "status":"next"
+}
+
+###
+PATCH http://localhost:8000/api/rooms/85d9a08b-60cd-443b-8799-ad90b75e8317/tune/{tune_id} HTTP/1.1
+Content-Type: application/json
+
+{
+    "name":"confirmation"
+}
+
+###
+DELETE http://localhost:8000/api/rooms/85d9a08b-60cd-443b-8799-ad90b75e8317/tune/{tune_id} HTTP/1.1
+Content-Type: application/json
