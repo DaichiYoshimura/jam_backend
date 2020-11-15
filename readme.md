@@ -1,92 +1,80 @@
-# **python環境構築**
+# **python environment**
 
-## **mac本体に直接設定するもの**
-まずはhomebrew（macのパッケージ管理）をインストールします。
+## **setting local machine**
 
-homebrewをインストール
+install homebrew
+
 ```    
 home/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ```
-python(3.8以上)をインストール
+
+install python(3.8)
 ```    
 brew install python
 ```
-pipenv（pythonのライブラリ管理）をインストール
+install pipenv
 ```
 brew install pipenv
 ```
-## **仮想環境を作る**
-このディレクトリ内で同じ環境が適用されます。
+## **create pipenv**
+
 ```
 mkdir X
 cd X
 ```
-仮想環境を作る
+create pipenv
 ```    
 pipenv install
 ```
-使うpythonのバージョンを指定
+select version
 ```    
 pipenv --python 3.8
 ```
-必要なパッケージをインストール
+install package
 ```
 pipenv install {library}
 pipenv install --dev {library}
 ```
-(参考)django系
-- django:フルスタックフレームワーク
-- djangorestframework:restAPIフレームワーク
-- django-filter:検索機能
-- django-environ:環境操作
-- django-cors-headers:CORS対応
-- drf-nested-routers:ネストされたURLの構築
+django
+- django:framework
+- djangorestframework:customize django for rest  
+- django-filter:customize django for searching
+- django-cors-headers:CORS
+- drf-nested-routers:nested url
 
 
-(参考)開発補助
-- flake8:コーディング規約 
-- autopep8:フォーマッタ
+dev
+- flake8:linter 
+- autopep8:formatter
 
-(参考)その他有名どころ
-- 配列計算等の高速演算：numpy,pandas 
-- 機械学習・ディープラーニング：scikit-learn,tensor-flow,pytorch
-
-インストールしたパッケージ環境をアクティベートする
+activate pipenv
 ```
 pipenv shell
-exitで終了
+exit
 ```    
 # **プロジェクトの作成**
-仮想環境をアクティベート（pipenv shell）した上で
+
 ```
+pipenv shell
 django-admin startproject {your_project_name}
 cd ./{your_project_name}
 ```
-- {your_project_name}：フレームワークの共通ディレクトリ
-- `manage.py`：startapp,migrateのような管理コマンドが入っています。
-- `pipenv run [script]`に`manage.py`のコマンドをラップしておくと楽です。(pipfileに記載)
+- {your_project_name}：common dir of framework
+- `manage.py`：manage commands e.g. startapp,migrate
+- write  `pipenv run [script]` about commands in `manage.py` in pipfile
 
-## **共通ディレクトリの作成**
-APIをはじめにひとつ作成するとき、rest_frameworkの共通ディレクトリが作成されます。    
-まずは先ほど構築したディレクトリで仮想環境をアクティベート  
+## **startapp**
 ```
 pipenv shell
-```
-
-## **startappコマンド**
-アプリ追加コマンドを叩きます。
-
-```
 python manage.py startapp {your_app_name} 
 ```
-- このリポジトリではappの作成されるディレクトリと作成されるファイルをカスタマイズしています。
-- {your_app_name}：API本体を構築していくディレクトリになります。
+- {your_app_name}：dirAPI本体を構築していくディレクトリになります。
 - 共通ディレクトリがすでに存在している場合は、APPディレクトリのみ作成されます。
 - APIを新規に追加する場合はこのコマンドで他のAPIと並列構成になるように追加します。
-- はじめはプロジェクトの開発者（スーパーユーザー）を管理するAPPを作成するとスムーズかと思います。
+- At first, You create an app to manage super user.
+## **create model for managing super user**  
 
-## **スーパーユーザー用のmodel作成**  
-テーブル,カラムを定義していきます。
+define table and column.
 
 `{your_app_name}/models.py`
 ```
@@ -95,8 +83,8 @@ class User(models.Model):
     mail = models.EmailField()
 ```
 
-## **共通ディレクトリの設定にアプリ名を加えておきます**
-INSTALLED_APPSの最下行に追加  
+## **write app name in common dir setting**
+add {your_app_name} to INSTALLED_APPS  
 `{your_project_name}/settings.py`
 ```
 INSTALLED_APPS = [
@@ -110,18 +98,17 @@ INSTALLED_APPS = [
 ]
 ```
 
-## **DBのマイグレーションを行います**
-これによりテーブルが作成されます。
+## **migrate DB**
+create table
 ```
 python manage.py makemigrations
 python manage.py migrate
 ```  
 
-## **スーパーユーザーを作成しておきます**
+## **create super user**
 ```
 python manage.py createsuperuser
 ```
-下記が順に聞かれますのでそのまま入力していきます。
 ```
 Username (leave blank to use 'dev'): dev
 Email address:
@@ -130,7 +117,7 @@ Password (again):
 Superuser created successfully.
 ```
 
-## **スーパーユーザーを登録しておきます。**
+## **register super user**
 `{your_app_name}/admin.py`
 ```
 from django.contrib import admin
@@ -141,16 +128,15 @@ class UserAdmin(admin.ModelAdmin):
     pass
 ```
 
-## **開発サーバーを起動**
+## **run local server**
 ```
 pipenv run start
 ```
-- vscodeならデバッグスタートの方が楽です。
-- ctrl+Cで終了
-- localhost:8000:djangoの動作確認
-- localhost:8000/admin/:管理画面に入れる
+- `ctrl+C` for exit
+- localhost:8000:django's root
+- localhost:8000/admin/:management console
 
-ここまででdjangoのスーパーユーザー設定が完了となります。
+this is finish for managing super user app.
 
 # **djangoアプリ(API)の追加手順**
 
@@ -221,9 +207,9 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 ```
 
-## **urlsの定義**  
-いわゆるルーティングを書きます。  
-共通ディレクトリ側にはAPPディレクトリの`urls.py`を追加します。  
+## **urls**  
+define rooting.
+add `urls.py` for common dir
 `rest_common/urls.py`  
 ``` 
 from django.contrib import admin
@@ -236,7 +222,7 @@ urlpatterns = [
     url(r'^api/', include(jsms_api_router.urls)),
 ]
 ```  
-APPディレクトリ側にはそれぞれのViewSetのルーティングを追加します。  
+add each ViewSet rooting for add dir
 `{your_app_name}/urls.py`  
 ```
 from rest_framework import routers
@@ -246,11 +232,10 @@ from .views import UserViewSet
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 ```
-- このプロジェクトのrouterはカスタマイズされています。
-- `extends`メソッドでappディレクトリで登録されているルーティング情報を引き継ぎます。
+- In this project, the router is customized.
 
-## **admin.pyについて**
-djangoの管理画面にモデルを表示させるために登録します。
+## **about admin.py**
+
 ```
 from django.contrib import admin
 from .models import Partitipant
@@ -260,42 +245,37 @@ class ParticipantAdmin(admin.ModelAdmin):
     pass
 ```
 
-## **動作確認**
+## **start local server**
 ```
 pipenv run start
 ```
-- roomエントリ：http://localhost:8000/api/rooms/
+- room：http://localhost:8000/api/rooms/
 
-## (参考)Postgresの使い方
-スーパーユーザーでログイン
+## how to use Postgres
+login super user
 ```
 psql -U postgres
 ```
-ユーザーを作成
+create user
 ```
 CREATE ROLE admin WITH LOGIN PASSWORD 'jsms';
 ALTER ROLE admin WITH option [SUPERUSER];
 
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA jsms TO admin;
 ```
-ロールとデータベースを指定してログイン
+login selecting role and database
 ```
 psql -U admin -d jsms
 ```
-brewサービス起動
+start via brew
 ```
 brew services start postgresql
 ```
-brewサービス停止
+stop via brew
 ```
 brew services stop postgresql
 ```
-ユーザーパスワードを変更
+alter user password
 ```
 ALTER USER jsms with unencrypted password 'jsms';
 ```
-# 残課題
- - dockerは必要かどうか（dockerファイル書いておけば環境構築簡単そうな気がする）
- - デプロイ方法（CIはどうする？）
- - AWSの使い方,EC2（ファイル置き場）,lambda,RDS（DBはEC2に置かないでここにおく）
-
